@@ -16,6 +16,6 @@ public:
 
 	std::pair<double, double> getGridSize()
 	{
-		return std::make_pair(xlen_ / nx_, ylen_ / ny_);
+		return std::make_pair(xlen_ / (nx_ - 1), ylen_ / (ny_ - 1));
 	}
 };

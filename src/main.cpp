@@ -1,20 +1,27 @@
 #include "Grid.hpp"
 #include "LinearConvection.hpp"
 
+#include <fstream>
 #include <iostream>
 #include <vector>
 
 int main()
 {
 	// Create the solver object
-	Grid mesh(10, 0);
-	LinearConvection solver(0.1, 20, mesh);
+	std::vector<double> result;
+	Grid mesh(41, 0, 2, 2);
+	LinearConvection solver(0.025, 1, mesh);
+	solver.solve(25);
 
-	// Solve for multiple time steps
-	for(int timestep = 0; timestep < 5; timestep++)
+	result = solver.getVector();
+
+	std::ofstream output("result-flowsolver.txt");
+	if(output.is_open())
 	{
-		std::cout << "-----------------------" << std::endl;
+		for(auto val : result)
+			output << val << " , ";
 	}
+	output.close();
 
 	return 0;
 }

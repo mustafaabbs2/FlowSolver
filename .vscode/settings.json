@@ -70,5 +70,9 @@
         "resumable": "cpp",
         "queue": "cpp"
     },
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "none",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.autopep8"
+    }
 }
