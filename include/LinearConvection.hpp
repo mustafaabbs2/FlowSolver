@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Grid.hpp"
+#include "Writer.hpp"
 #include <algorithm>
 #include <vector>
 
@@ -19,6 +20,7 @@ public:
 		, c_(c)
 		, deltaX_(mesh.getGridSize().first)
 		, nx_(mesh.nx_)
+		, mesh_(mesh)
 	{
 		f_n.assign(nx_, 1);
 		f_np1.assign(nx_, 0);
@@ -42,6 +44,7 @@ public:
 				f_np1[i] = f_n[i] - c_ * (deltaT_ / deltaX_) * (f_n[i] - f_n[i - 1]);
 			}
 			std::copy(f_np1.begin(), f_np1.end(), f_n.begin());
+			writeTimestepData(t);
 		}
 	}
 
@@ -50,7 +53,14 @@ public:
 		return f_np1;
 	}
 
+	void writeTimestepData(size_t timestep)
+	{
+		Writer writer;
+		writer.writeASCII(f_np1, timestep);
+	}
+
 private:
 	std::vector<double> f_n;
 	std::vector<double> f_np1;
+	Grid& mesh_;
 };
