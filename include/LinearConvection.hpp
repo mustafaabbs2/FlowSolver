@@ -48,6 +48,19 @@ public:
 		}
 	}
 
+	void solveNL(size_t timesteps)
+	{
+		for(auto t = 0; t < timesteps; t++)
+		{
+			for(auto i = 1; i < nx_ - 1; i++)
+			{
+				f_np1[i] = f_n[i] - f_n[i] * (deltaT_ / deltaX_) * (f_n[i] - f_n[i - 1]);
+			}
+			std::copy(f_np1.begin(), f_np1.end(), f_n.begin());
+			writeTimestepData(t);
+		}
+	}
+
 	std::vector<double> getVector()
 	{
 		return f_np1;
