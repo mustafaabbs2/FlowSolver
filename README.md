@@ -9,5 +9,5 @@ Run make on Linux/ Build FlowSolver.sln on Windows
 
 # Sample
 
-![Linear Convection](samples\animation.gif)
+![Linear Convection](./samples/animation.gif)
 
