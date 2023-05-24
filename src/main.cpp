@@ -11,7 +11,7 @@ int main()
 	std::vector<double> result;
 	Grid mesh(41, 0, 2, 2);
 	LinearConvection solver(0.025, 1, mesh);
-	solver.solve(25);
+	solver.solveDiff(25);
 
 	result = solver.getVector();
 

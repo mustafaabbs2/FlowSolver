@@ -5,8 +5,6 @@
 #include <algorithm>
 #include <vector>
 
-//du/dt + c du/dx = 0
-
 // Solver class for Eulerian finite volume method
 class LinearConvection
 {
@@ -35,6 +33,7 @@ public:
 			f_n.assign(nx_, 1);
 	}
 
+	//du/dt + c du/dx = 0
 	void solve(size_t timesteps)
 	{
 		for(auto t = 0; t < timesteps; t++)
@@ -48,6 +47,7 @@ public:
 		}
 	}
 
+	//du/dt + u du/dx = 0
 	void solveNL(size_t timesteps)
 	{
 		for(auto t = 0; t < timesteps; t++)
@@ -55,6 +55,24 @@ public:
 			for(auto i = 1; i < nx_ - 1; i++)
 			{
 				f_np1[i] = f_n[i] - f_n[i] * (deltaT_ / deltaX_) * (f_n[i] - f_n[i - 1]);
+			}
+			std::copy(f_np1.begin(), f_np1.end(), f_n.begin());
+			writeTimestepData(t);
+		}
+	}
+	//du/dt = nu d2u/dx2
+	void solveDiff(size_t timesteps)
+	{
+		auto nu = 0.3;
+		auto sigma = 0.2;
+		deltaT_ = sigma * deltaX_ * deltaX_ / nu;
+
+		for(auto t = 0; t < timesteps; t++)
+		{
+			for(auto i = 1; i < nx_ - 2; i++)
+			{
+				f_np1[i] = f_n[i] + nu * (deltaT_ / deltaX_ * deltaX_) *
+										(f_n[i + 1] - 2 * f_n[i] + f_n[i - 1]);
 			}
 			std::copy(f_np1.begin(), f_np1.end(), f_n.begin());
 			writeTimestepData(t);
